@@ -4,8 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timothy's Resume</title>
+
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
 </head>
 <body>
-    <embed src="https://raw.githubusercontent.com/mitpoet/mitpoet.github.io/main/resume.pdf" type="application/pdf" width="100%" height="600px">
+    <div id="pdf-viewer"></div>
+
+    <script>
+        var pdfUrl = 'https://raw.githubusercontent.com/mitpoet/mitpoet.github.io/main/resume.pdf';
+
+        pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc) {
+            var pdfViewer = document.getElementById('pdf-viewer');
+            for (var pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                var canvas = document.createElement('canvas');
+                pdfViewer.appendChild(canvas);
+
+                pdfDoc.getPage(pageNum).then(function(page) {
+                    var context = canvas.getContext('2d');
+                    var viewport = page.getViewport({ scale: 1.5 });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    var renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    page.render(renderContext);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
