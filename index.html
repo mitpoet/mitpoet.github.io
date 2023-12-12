@@ -18,9 +18,22 @@
     </style>
 </head>
 <body>
-    <object id="myPDF" data="resume.pdf" type="application/pdf">
-        <p>It appears you don't have a PDF plugin for this browser.
-           You can <a href="resume.pdf">click here to download the PDF file.</a></p>
-    </object>
+
+    <script>
+        // Check if the device is a mobile phone
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // If mobile, redirect to download link
+            window.location.href = 'resume.pdf';
+        } else {
+            // If not mobile, embed the PDF
+            document.write('<object id="myPDF" data="resume.pdf" type="application/pdf">' +
+                '<p>It appears you don\'t have a PDF plugin for this browser. ' +
+                'You can <a href="resume.pdf">click here to download the PDF file.</a></p>' +
+                '</object>');
+        }
+    </script>
+
 </body>
 </html>
